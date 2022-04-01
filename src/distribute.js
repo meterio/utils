@@ -1,5 +1,5 @@
 const RPC = 'https://mainnet.meter.io';
-const PK = process.env.MAINNET_CONTRACT_ADMIN_PRIVKEY;
+const PK = process.env.DIST_ADMIN_PRIVKEY;
 const TOKEN = '0x42c1BA053a1e127EcD5E7946e56988F75cc65561';
 
 const fs = require('fs');
