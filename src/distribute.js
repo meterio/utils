@@ -1,8 +1,9 @@
-const RPC = 'https://mainnet.meter.io';
+const RPC = 'https://testnet.meter.io';
 const PK = process.env.DIST_ADMIN_PRIVKEY;
-const TOKEN = '0x42c1BA053a1e127EcD5E7946e56988F75cc65561';
+const TOKEN = '0xdc51b40140d0768e94003f05e6919790a1b0536a';
 
 const fs = require('fs');
+const BigNumber = require('bignumber.js');
 const path = require('path');
 const PLAN_PATH = path.join(__dirname, 'plan.csv');
 
@@ -32,11 +33,11 @@ console.log(`Prepare to distribute token ${TOKEN} with admin ${tokenOwner}`);
 
   for (const d of dists) {
     const addr = d.Address;
-    const amount = d.Amount;
-    console.log(`Prepare to mint ${amount} to ${addr}`);
-    const receipt = await tokenInst.methods.mint(addr, amount).send({ from: tokenOwner });
+    const amount = new BigNumber(d.Amount).times(1e18).toFixed();
+    console.log(`Prepare to transfer ${amount} to ${addr}`);
+    const receipt = await tokenInst.methods.transfer(addr, amount).send({ from: tokenOwner });
     if (receipt && receipt.status) {
-      console.log(`Minted ${amount} to ${addr} in tx ${receipt.transactionHash}`);
+      console.log(`Transfer ${amount} to ${addr} in tx ${receipt.transactionHash}`);
     }
   }
 })();
